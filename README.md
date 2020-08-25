@@ -1,4 +1,4 @@
-# LiveView August 27 class info. Your homework. 
+# LiveView August 28 class info. Your homework. 
 
 ## 1 Install these tools, plus Elixir, plus Phoenix. 
 
