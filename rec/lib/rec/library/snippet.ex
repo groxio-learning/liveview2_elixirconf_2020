@@ -15,5 +15,6 @@ defmodule Rec.Library.Snippet do
     snippet
     |> cast(attrs, [:title, :text, :steps])
     |> validate_required([:title, :text, :steps])
+    |> validate_length(:text, min: 4)
   end
 end
