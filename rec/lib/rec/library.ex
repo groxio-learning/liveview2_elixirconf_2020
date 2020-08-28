@@ -105,11 +105,13 @@ defmodule Rec.Library do
   def previous(id) do
     (from s in Snippet, where: s.id < ^id, order_by: [desc: s.id], limit: 1, select: s.id)
     |> Repo.one()
+    |> Kernel.||(last().id)
   end
 
   def next(id) do
     (from s in Snippet, where: s.id > ^id, order_by: [asc: s.id], limit: 1, select: s.id)
     |> Repo.one()
+    |> Kernel.||(first().id)
   end
 
   def first() do
