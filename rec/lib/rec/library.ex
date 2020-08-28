@@ -101,4 +101,24 @@ defmodule Rec.Library do
   def change_snippet(%Snippet{} = snippet, attrs \\ %{}) do
     Snippet.changeset(snippet, attrs)
   end
+
+  def previous(id) do
+    (from s in Snippet, where: s.id < ^id, order_by: [desc: s.id], limit: 1, select: s.id)
+    |> Repo.one()
+  end
+
+  def next(id) do
+    (from s in Snippet, where: s.id > ^id, order_by: [asc: s.id], limit: 1, select: s.id)
+    |> Repo.one()
+  end
+
+  def first() do
+    (from s in Snippet, order_by: [asc: s.id], limit: 1)
+    |> Repo.one()
+  end
+
+  def last() do
+    (from s in Snippet, order_by: [desc: s.id], limit: 1)
+    |> Repo.one()
+  end
 end
