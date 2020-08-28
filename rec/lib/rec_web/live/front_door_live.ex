@@ -20,12 +20,13 @@ defmodule RecWeb.FrontDoorLive do
       <button phx-click="next">Next</button>
     </div>
     <pre><%= @snippet.text %></pre>
-    <p>Memorize this in <%= @snippet.steps %> steps</p>
+    <p><button phx-click="memorize">Memorize</button> this in <%= @snippet.steps %> steps</p>
     """
   end
 
   defp previous(socket) do
     snippet_id = Library.previous(socket.assigns.snippet_id)
+
     socket
     |> assign(snippet_id: snippet_id)
     |> load_snippet
@@ -33,6 +34,7 @@ defmodule RecWeb.FrontDoorLive do
 
   defp next(socket) do
     snippet_id = Library.next(socket.assigns.snippet_id)
+
     socket
     |> assign(snippet_id: snippet_id)
     |> load_snippet
@@ -49,5 +51,9 @@ defmodule RecWeb.FrontDoorLive do
 
   def handle_event("next", _, socket) do
     {:noreply, next(socket)}
+  end
+
+  def handle_event("memorize", _, socket) do
+    {:noreply, push_redirect(socket, to: "/game/#{socket.assigns.snippet_id}")}
   end
 end
