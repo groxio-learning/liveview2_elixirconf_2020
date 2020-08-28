@@ -1,11 +1,13 @@
 defmodule RecWeb.FrontDoorLive do
   use RecWeb, :live_view
 
+  alias Rec.Library
+
   def mount(_params, _session, socket) do
     {
       :ok,
       socket
-      |> assign(snippet_id: :it)
+      |> assign(snippet_id: Library.first().id)
       |> load_snippet()
     }
   end
@@ -22,37 +24,23 @@ defmodule RecWeb.FrontDoorLive do
     """
   end
 
-  defp previous_id(:it), do: :grail
-  defp previous_id(:grail), do: :it
-
-  defp next_id(:it), do: :grail
-  defp next_id(:grail), do: :it
-
   defp previous(socket) do
-    snippet_id = previous_id(socket.assigns.snippet_id)
+    snippet_id = Library.previous(socket.assigns.snippet_id)
     socket
     |> assign(snippet_id: snippet_id)
     |> load_snippet
   end
 
   defp next(socket) do
-    snippet_id = next_id(socket.assigns.snippet_id)
+    snippet_id = Library.next(socket.assigns.snippet_id)
     socket
     |> assign(snippet_id: snippet_id)
     |> load_snippet
   end
 
   defp load_snippet(socket) do
-    snippet = snippet(socket.assigns.snippet_id)
+    snippet = Library.get_snippet!(socket.assigns.snippet_id)
     assign(socket, snippet: snippet)
-  end
-
-  defp snippet(:it) do
-    %{title: "IT Crowd", text: "Did you try turning it off and on again?", steps: 3}
-  end
-
-  defp snippet(:grail) do
-    %{title: "The Holy Grail", text: "I got better", steps: 4}
   end
 
   def handle_event("previous", _, socket) do
