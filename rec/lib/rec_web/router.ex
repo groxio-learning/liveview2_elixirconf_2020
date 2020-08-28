@@ -20,6 +20,8 @@ defmodule RecWeb.Router do
     live "/", PageLive, :index
     live "/welcome", FrontDoorLive
 
+    live "/game/:id", GameLive
+
     live "/snippets", SnippetLive.Index, :index
     live "/snippets/new", SnippetLive.Index, :new
     live "/snippets/:id/edit", SnippetLive.Index, :edit
