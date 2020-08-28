@@ -1,0 +1,32 @@
+<h1>Show Snippet</h1>
+
+<%= if @live_action in [:edit] do %>
+  <%= live_modal @socket, RecWeb.SnippetLive.FormComponent,
+    id: @snippet.id,
+    title: @page_title,
+    action: @live_action,
+    snippet: @snippet,
+    return_to: Routes.snippet_show_path(@socket, :show, @snippet) %>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Title:</strong>
+    <%= @snippet.title %>
+  </li>
+
+  <li>
+    <strong>Text:</strong>
+    <%= @snippet.text %>
+  </li>
+
+  <li>
+    <strong>Steps:</strong>
+    <%= @snippet.steps %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.snippet_show_path(@socket, :edit, @snippet), class: "button" %></span>
+<span><%= live_redirect "Back", to: Routes.snippet_index_path(@socket, :index) %></span>
